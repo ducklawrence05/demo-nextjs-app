@@ -1,0 +1,1 @@
+export const DEFAULT_API_URL = process.env.NEXT_PUBLIC_DEFAULT_API_URL
