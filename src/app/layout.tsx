@@ -30,14 +30,10 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+            <body className="antialiased">
                 <AppProviders>
-                    <div
-                        className="max-w-6xl mx-auto py-10 px-4 space-y-6" //
-                    >
-                        {children}
-                    </div>
+                    <div className="min-h-screen flex flex-col items-center p-6">{children}</div>
                     <Modals />
                     <Toaster position="top-right" reverseOrder={false} />
                 </AppProviders>

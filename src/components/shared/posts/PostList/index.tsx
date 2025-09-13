@@ -1,13 +1,13 @@
 "use client"
 import React, { useCallback, useState } from "react"
 import { useCreatePostDisclosureSingleton, useDeletePost, useGetPosts } from "@/hooks"
-import { Spinner } from "phosphor-react"
 import toast from "react-hot-toast"
 import { Post } from "@/models/Post/types/post"
 import { PostCard } from "@/components/modules"
 import { UpdatePostRequest } from "@/models/Post/schema/post"
 import { UpdatePostModal } from "@/components/modals"
 import { ButtonStyled } from "@/components/styled"
+import { Spinner } from "@heroui/react"
 
 export function PostList() {
     const { data: posts, isLoading, isError, refetch } = useGetPosts()
@@ -54,17 +54,18 @@ export function PostList() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {posts
-                    .slice()
-                    .reverse()
-                    .map((post) => (
-                        <PostCard
-                            key={post.id}
-                            post={post}
-                            onUpdate={handleEdit}
-                            onDelete={handleDelete}
-                        />
-                    ))}
+                {Array.isArray(posts) &&
+                    posts
+                        .slice()
+                        .reverse()
+                        .map((post) => (
+                            <PostCard
+                                key={post.id}
+                                post={post}
+                                onUpdate={handleEdit}
+                                onDelete={handleDelete}
+                            />
+                        ))}
             </div>
 
             {editingPost && (
