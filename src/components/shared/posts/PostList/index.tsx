@@ -1,6 +1,6 @@
 "use client"
 import React, { useCallback, useState } from "react"
-import { useCreatePostDisclosureSingleton, useDeletePost, useGetPosts } from "@/hooks"
+import { useCreatePostDisclosureSingleton, useDeletePost, useGetAllPosts } from "@/hooks"
 import toast from "react-hot-toast"
 import { Post } from "@/models/Post/types/post"
 import { PostCard } from "@/components/modules"
@@ -10,8 +10,8 @@ import { ButtonStyled } from "@/components/styled"
 import { Spinner } from "@heroui/react"
 
 function PostListComponent() {
-    const { data: posts, isLoading, isError, refetch } = useGetPosts()
-    const { onOpen } = useCreatePostDisclosureSingleton()
+    const { data: posts, isLoading, isError, refetch } = useGetAllPosts()
+    const { onOpen: onOpenCreateModal } = useCreatePostDisclosureSingleton()
     const deleteMutation = useDeletePost()
 
     // update modal
@@ -51,11 +51,11 @@ function PostListComponent() {
     return (
         <div className="p-4">
             <div className="flex flex-wrap items-center gap-2 mb-4">
-                <ButtonStyled onPress={onOpen}>Create Post</ButtonStyled>
+                <ButtonStyled onPress={onOpenCreateModal}>Create Post</ButtonStyled>
                 <ButtonStyled onPress={handleRefetch}>Refresh Post</ButtonStyled>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid gap-6">
                 {Array.isArray(posts) &&
                     posts
                         .slice()

@@ -15,7 +15,7 @@ export function PostDetailView({ postId }: { postId: number }) {
     }
 
     return (
-        <div className="min-h-[80vh] min-w-[60vw]">
+        <div className="min-h-[80vh]">
             <h3 className="text-lg font-semibold">{post.title}</h3>
             <p className="text-sm mt-2 whitespace-pre-wrap break-words">{post.body}</p>
         </div>

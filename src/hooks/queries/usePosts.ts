@@ -8,14 +8,13 @@ import { postApi } from "@/services/postApi"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
 
-export const useGetPosts = () => {
+export const useGetAllPosts = () => {
     return useQuery({
         queryKey: QUERY_KEYS.POSTS,
         queryFn: async () => {
             const res = await postApi.getAll()
             return res
-        },
-        staleTime: 0
+        }
     })
 }
 
@@ -25,8 +24,7 @@ export const useGetPostById = ({ postId }: { postId: number }) => {
         queryFn: async () => {
             const res = await postApi.getById(postId)
             return res
-        },
-        staleTime: 0
+        }
     })
 }
 
@@ -57,10 +55,8 @@ export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
             await queryClient.cancelQueries({ queryKey: QUERY_KEYS.POSTS })
             const previousPosts = queryClient.getQueryData<GetAllPostsResponse>(QUERY_KEYS.POSTS)
 
-            queryClient.setQueryData<GetAllPostsResponse>(
-                QUERY_KEYS.POSTS,
-                (old) =>
-                    old?.map((p) => (p.id === updatedPost.id ? { ...p, ...updatedPost } : p)) ?? []
+            queryClient.setQueryData<GetAllPostsResponse>(QUERY_KEYS.POSTS, (old) =>
+                old?.map((p) => (p.id === updatedPost.id ? { ...p, ...updatedPost } : p))
             )
 
             toast.success("Updated!")
@@ -68,6 +64,7 @@ export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
             return { previousPosts }
         },
         onError: (_err, _variables, context) => {
+            // roll back
             if (context?.previousPosts) {
                 queryClient.setQueryData<GetAllPostsResponse>(
                     QUERY_KEYS.POSTS,
