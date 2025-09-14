@@ -1,7 +1,7 @@
 "use client"
 import React from "react"
-import { Card, CardProps } from "@heroui/react"
+import { Card, CardProps, cn } from "@heroui/react"
 
 export function CardStyled(props: CardProps) {
-    return <Card className="p-4 spcae-y-2" {...props} />
+    return <Card {...props} className={cn("p-4 spcae-y-2", props.className)} />
 }

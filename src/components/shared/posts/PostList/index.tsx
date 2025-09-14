@@ -9,21 +9,23 @@ import { UpdatePostModal } from "@/components/modals"
 import { ButtonStyled } from "@/components/styled"
 import { Spinner } from "@heroui/react"
 
-export function PostList() {
+function PostListComponent() {
     const { data: posts, isLoading, isError, refetch } = useGetPosts()
     const { onOpen } = useCreatePostDisclosureSingleton()
     const deleteMutation = useDeletePost()
-    const [editingPost, setEditingPost] = useState<UpdatePostRequest | null>(null)
-    const [isOpen, setIsOpen] = useState<boolean>(false)
 
-    const handleEdit = (post: UpdatePostRequest) => {
+    // update modal
+    const [editingPost, setEditingPost] = useState<UpdatePostRequest | null>(null)
+    const [isEditingOpen, setIsEditingOpen] = useState<boolean>(false)
+
+    const handleOpenEdit = (post: UpdatePostRequest) => {
         setEditingPost(() => post)
-        setIsOpen(() => true)
+        setIsEditingOpen(() => true)
     }
 
-    const handleClose = () => {
+    const handleCloseEdit = () => {
         setEditingPost(() => null)
-        setIsOpen(() => false)
+        setIsEditingOpen(() => false)
     }
 
     const handleDelete = useCallback(
@@ -62,15 +64,21 @@ export function PostList() {
                             <PostCard
                                 key={post.id}
                                 post={post}
-                                onUpdate={handleEdit}
+                                onUpdate={handleOpenEdit}
                                 onDelete={handleDelete}
                             />
                         ))}
             </div>
 
             {editingPost && (
-                <UpdatePostModal post={editingPost} isOpen={isOpen} onClose={handleClose} />
+                <UpdatePostModal
+                    post={editingPost}
+                    isOpen={isEditingOpen}
+                    onClose={handleCloseEdit}
+                />
             )}
         </div>
     )
 }
+
+export const PostList = React.memo(PostListComponent)

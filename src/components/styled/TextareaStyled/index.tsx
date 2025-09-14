@@ -1,7 +1,9 @@
 "use client"
 import React from "react"
-import { Textarea, TextAreaProps } from "@heroui/react"
+import { cn, Textarea, TextAreaProps } from "@heroui/react"
 
 export function TextareaStyled(props: TextAreaProps) {
-    return <Textarea variant="bordered" color="primary" {...props} />
+    return (
+        <Textarea variant="bordered" color="primary" {...props} className={cn(props.className)} />
+    )
 }

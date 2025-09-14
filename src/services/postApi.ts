@@ -1,7 +1,8 @@
 import {
     CreatePostRequest,
     CreatePostResponse,
-    GetPostsResponse,
+    GetAllPostsResponse,
+    GetPostResponse,
     UpdatePostRequest,
     UpdatePostResponse
 } from "@/models/Post/schema/post"
@@ -19,11 +20,20 @@ import axiosInstance from "@/utils/axios"
  */
 
 export const postApi = {
-    getPosts: async (): Promise<GetPostsResponse> => {
+    getAll: async (): Promise<GetAllPostsResponse> => {
         const res = await axiosInstance.get("/posts")
         const backendData = res.data
 
-        const transformedRes: GetPostsResponse = backendData
+        const transformedRes: GetAllPostsResponse = backendData
+
+        return transformedRes
+    },
+
+    getById: async (postId: number): Promise<GetPostResponse> => {
+        const res = await axiosInstance.get(`/posts/${postId}`)
+        const backendData = res.data
+
+        const transformedRes: GetPostResponse = backendData
 
         return transformedRes
     },
@@ -47,7 +57,7 @@ export const postApi = {
     update: async (req: UpdatePostRequest): Promise<UpdatePostResponse> => {
         const transformedReq = { ...req }
 
-        const res = await axiosInstance.put(`/posts/${transformedReq.id}`, transformedReq)
+        const res = await axiosInstance.patch(`/posts/${transformedReq.id}`, transformedReq)
         const backendData = res.data
 
         const transformedRes: UpdatePostResponse = { ...backendData }

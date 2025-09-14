@@ -1,6 +1,10 @@
 import { Post } from "../types/post"
 
-export type GetPostsResponse = Post[]
+// get all
+export type GetAllPostsResponse = Post[]
+
+// get post
+export type GetPostResponse = Post
 
 // create post
 export type CreatePostRequest = {
@@ -13,7 +17,7 @@ export type CreatePostResponse = Post
 // update post
 export type UpdatePostRequest = {
     id: number
-    title: string
+    title?: string
     body?: string
 }
 

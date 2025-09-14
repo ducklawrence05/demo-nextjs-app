@@ -11,7 +11,7 @@ const CreatePostSchema = Yup.object().shape({
     body: Yup.string().required("Body is required")
 })
 
-export function CreatePostForm({ onSuccess }: { onSuccess: () => void }) {
+export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
     const createMutation = useCreatePost({ onSuccess })
 
     const handleCreate = useCallback(

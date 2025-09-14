@@ -1,7 +1,15 @@
 "use client"
 import React from "react"
-import { Modal, ModalProps } from "@heroui/react"
+import { cn, Modal, ModalProps } from "@heroui/react"
 
 export function ModalStyled(props: ModalProps) {
-    return <Modal color="secondary" {...props} />
+    return (
+        <Modal
+            placement="center"
+            scrollBehavior="inside"
+            color="secondary"
+            {...props}
+            className={cn(props.className)}
+        />
+    )
 }

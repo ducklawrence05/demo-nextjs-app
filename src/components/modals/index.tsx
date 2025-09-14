@@ -1,6 +1,6 @@
-import { CreatePostModal } from "./CreatePostModal"
+import { CreatePostModal } from "./posts/CreatePostModal"
 
-export * from "./UpdatePostModal"
+export * from "./posts/"
 
 export const Modals = () => {
     return (
