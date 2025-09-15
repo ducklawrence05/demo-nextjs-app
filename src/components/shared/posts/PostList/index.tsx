@@ -52,6 +52,7 @@ function PostListComponent() {
 
     return (
         <div>
+            <div className="font-bold text-3xl text-center mb-4">{t("post.list")}</div>
             <div className="flex flex-wrap items-center gap-2 mb-4">
                 <ButtonStyled color="primary" onPress={onOpenCreateModal}>
                     {t("post.create")}

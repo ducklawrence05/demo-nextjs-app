@@ -42,7 +42,7 @@ export default async function RootLayout({
                         {children}
                     </div>
                     <Modals />
-                    <Toaster position="top-right" reverseOrder={false} />
+                    <Toaster position="bottom-right" reverseOrder={false} />
                 </AppProviders>
             </body>
         </html>
