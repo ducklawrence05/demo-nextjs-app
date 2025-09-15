@@ -5,6 +5,7 @@ import { CardProps } from "@heroui/react"
 import { Post } from "@/models/Post/types/post"
 import { ButtonStyled, CardStyled } from "@/components/styled"
 import Link from "next/link"
+import { useTranslation } from "react-i18next"
 
 interface PostCardProps extends CardProps {
     post: Post
@@ -13,6 +14,8 @@ interface PostCardProps extends CardProps {
 }
 
 function PostCardComponent({ post, onUpdate, onDelete }: PostCardProps) {
+    const { t } = useTranslation()
+
     return (
         <CardStyled className="flex flex-col justify-between p-4">
             <div>
@@ -26,17 +29,17 @@ function PostCardComponent({ post, onUpdate, onDelete }: PostCardProps) {
             <div className="flex gap-2 justify-end mt-4">
                 <Link href={`/posts/${post.id}`}>
                     <ButtonStyled color="primary" size="sm">
-                        View detail
+                        {t("post.view_detail")}
                     </ButtonStyled>
                 </Link>
                 {onUpdate && (
                     <ButtonStyled size="sm" onPress={() => onUpdate(post)}>
-                        Update
+                        {t("post.update")}
                     </ButtonStyled>
                 )}
                 {onDelete && (
                     <ButtonStyled size="sm" onPress={() => onDelete(post)}>
-                        Delete
+                        {t("post.delete")}
                     </ButtonStyled>
                 )}
             </div>

@@ -5,11 +5,7 @@ import { UpdatePostRequest } from "@/models/Post/schema/post"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { ButtonStyled, FormStyled, InputStyled, TextareaStyled } from "@/components/styled"
-
-const UpdatePostSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    body: Yup.string().required("Body is required")
-})
+import { useTranslation } from "react-i18next"
 
 export function UpdatePostForm({
     post,
@@ -18,6 +14,8 @@ export function UpdatePostForm({
     post: UpdatePostRequest
     onSuccess: () => void
 }) {
+    const { t } = useTranslation()
+
     const updateMutation = useUpdatePost({ onSuccess })
 
     const handleUpdate = useCallback(
@@ -26,6 +24,11 @@ export function UpdatePostForm({
         },
         [updateMutation]
     )
+
+    const UpdatePostSchema = Yup.object().shape({
+        title: Yup.string().required(t("post.title_is_required")),
+        body: Yup.string().required(t("post.body_is_required"))
+    })
 
     const formik = useFormik({
         initialValues: {
@@ -40,7 +43,7 @@ export function UpdatePostForm({
     return (
         <FormStyled>
             <InputStyled
-                label="Title"
+                label={t("post.title")}
                 value={formik.values.title}
                 onValueChange={(value) => formik.setFieldValue("title", value)}
                 isInvalid={!!(formik.touched.title && formik.errors.title)}
@@ -50,7 +53,7 @@ export function UpdatePostForm({
                 }}
             />
             <TextareaStyled
-                label="Body"
+                label={t("post.body")}
                 value={formik.values.body}
                 onValueChange={(value) => formik.setFieldValue("body", value)}
                 isInvalid={!!(formik.touched.body && formik.errors.body)}
@@ -66,7 +69,7 @@ export function UpdatePostForm({
                 isDisabled={!formik.isValid || !formik.dirty}
                 onPress={() => formik.submitForm()}
             >
-                Update Post
+                {t("post.update")}
             </ButtonStyled>
         </FormStyled>
     )

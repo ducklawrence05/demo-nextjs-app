@@ -7,6 +7,7 @@ import {
 import { postApi } from "@/services/postApi"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import toast from "react-hot-toast"
+import { useTranslation } from "react-i18next"
 
 export const useGetAllPosts = () => {
     return useQuery({
@@ -30,6 +31,7 @@ export const useGetPostById = ({ postId }: { postId: number }) => {
 
 export const useCreatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
     const queryClient = useQueryClient()
+    const { t } = useTranslation()
 
     return useMutation({
         mutationFn: (newPost: CreatePostRequest) => postApi.create(newPost),
@@ -37,17 +39,18 @@ export const useCreatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
             queryClient.setQueryData<GetAllPostsResponse>(QUERY_KEYS.POSTS, (old) => {
                 return old ? [...old, data] : [data]
             })
-            toast.success("Created!")
+            toast.success(t("success.create"))
             onSuccess?.()
         },
         onError: (error) => {
-            toast.error(error?.message || "Failed to create post")
+            toast.error(error?.message || t("failed.create"))
         }
     })
 }
 
 export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
     const queryClient = useQueryClient()
+    const { t } = useTranslation()
 
     return useMutation({
         mutationFn: (updatedPost: UpdatePostRequest) => postApi.update(updatedPost),
@@ -59,7 +62,7 @@ export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
                 old?.map((p) => (p.id === updatedPost.id ? { ...p, ...updatedPost } : p))
             )
 
-            toast.success("Updated!")
+            toast.success(t("success.update"))
             onSuccess?.()
             return { previousPosts }
         },
@@ -71,7 +74,7 @@ export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
                     context.previousPosts
                 )
             }
-            toast.error("Failed to update post")
+            toast.error(t("failed.update"))
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: QUERY_KEYS.POSTS })
@@ -81,6 +84,7 @@ export const useUpdatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
 
 export const useDeletePost = ({ onSuccess }: { onSuccess?: () => void } = {}) => {
     const queryClient = useQueryClient()
+    const { t } = useTranslation()
 
     return useMutation({
         mutationFn: (postId: number) => postApi.delete(postId),
@@ -94,7 +98,7 @@ export const useDeletePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
             })
 
             onSuccess?.()
-            toast.success("Deleted!")
+            toast.success(t("success.delete"))
             return { previousPosts }
         },
         onError: (_err, _postId, context) => {
@@ -104,7 +108,7 @@ export const useDeletePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
                     context.previousPosts
                 ) // rollback
             }
-            toast.error("Failed to delete post")
+            toast.error(t("failed.delete"))
         },
         // finally
         onSettled: () => {

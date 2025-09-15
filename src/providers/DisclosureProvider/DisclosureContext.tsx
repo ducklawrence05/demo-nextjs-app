@@ -1,6 +1,6 @@
 "use client"
+import { useCreatePostDisclosureCore } from "@/hooks"
 import { createContext } from "react"
-import { useCreatePostDisclosureCore } from "./useCreatePostDisclosure"
 
 export interface DisclosureContextType {
     useCreatePostDisclosure: ReturnType<typeof useCreatePostDisclosureCore>

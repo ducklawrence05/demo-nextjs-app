@@ -8,8 +8,10 @@ import { UpdatePostRequest } from "@/models/Post/schema/post"
 import { UpdatePostModal } from "@/components/modals"
 import { ButtonStyled } from "@/components/styled"
 import { Spinner } from "@heroui/react"
+import { useTranslation } from "react-i18next"
 
 function PostListComponent() {
+    const { t } = useTranslation()
     const { data: posts, isLoading, isError, refetch } = useGetAllPosts()
     const { onOpen: onOpenCreateModal } = useCreatePostDisclosureSingleton()
     const deleteMutation = useDeletePost()
@@ -38,23 +40,23 @@ function PostListComponent() {
     const handleRefetch = useCallback(async () => {
         try {
             await refetch()
-            toast.success("Refreshed!")
+            toast.success(t("success.refresh"))
         } catch {
-            toast.error("Failed to refresh")
+            toast.error(t("failed.refresh"))
         }
     }, [refetch])
 
     if (isLoading) return <Spinner />
-    if (isError || !posts) return <p className="text-red-500">Failed to load posts.</p>
-    if (posts.length === 0) return <p className="text-gray-500">No posts available.</p>
+    if (isError || !posts) return <p className="text-red-500">{t("post.failed_to_load_posts")}</p>
+    if (posts.length === 0) return <p className="text-gray-500">{t("post.no_posts_available")}</p>
 
     return (
-        <div className="p-4">
+        <div>
             <div className="flex flex-wrap items-center gap-2 mb-4">
                 <ButtonStyled color="primary" onPress={onOpenCreateModal}>
-                    Create Post
+                    {t("post.create")}
                 </ButtonStyled>
-                <ButtonStyled onPress={handleRefetch}>Refresh Post</ButtonStyled>
+                <ButtonStyled onPress={handleRefetch}>{t("post.refresh")}</ButtonStyled>
             </div>
 
             <div className="grid gap-6">

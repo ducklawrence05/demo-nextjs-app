@@ -25,8 +25,9 @@ if (!i18n.isInitialized) {
                 loadPath: "/locales/{{lng}}/{{ns}}.json"
             },
             detection: {
-                order: ["path", "cookie", "htmlTag"],
-                caches: ["cookie"]
+                order: ["cookie", "navigator"],
+                caches: ["cookie"],
+                cookieMinutes: 60 * 24 * 365
             }
         })
 }

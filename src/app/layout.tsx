@@ -3,8 +3,9 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { AppProviders } from "@/providers"
-import { Modals } from "@/components"
+import { LanguageSwitcher, Modals } from "@/components"
 import { Toaster } from "react-hot-toast"
+import { cookies } from "next/headers"
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -24,16 +25,22 @@ export const metadata: Metadata = {
     }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
     children
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const cookieStore = await cookies()
+    const locale = cookieStore.get("i18next")?.value || "en"
+
     return (
-        <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+        <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
             <body className="antialiased">
-                <AppProviders>
-                    <div className="min-h-screen flex flex-col items-center p-6">{children}</div>
+                <AppProviders locale={locale}>
+                    <div className="min-h-screen flex flex-col items-center p-6">
+                        <LanguageSwitcher />
+                        {children}
+                    </div>
                     <Modals />
                     <Toaster position="top-right" reverseOrder={false} />
                 </AppProviders>

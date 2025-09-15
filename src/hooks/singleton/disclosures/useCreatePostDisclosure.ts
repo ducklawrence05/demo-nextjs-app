@@ -1,8 +1,7 @@
 "use client"
+import { DisclosureContext } from "@/providers/DisclosureProvider/DisclosureContext"
 import { useDisclosure } from "@heroui/react"
 import { useContext } from "react"
-import { DisclosureContext } from "./DisclosureContext"
-
 export const useCreatePostDisclosureCore = () => {
     return useDisclosure()
 }

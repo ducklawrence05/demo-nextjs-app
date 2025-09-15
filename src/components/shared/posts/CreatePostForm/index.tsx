@@ -5,13 +5,11 @@ import { CreatePostRequest } from "@/models/Post/schema/post"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 import { ButtonStyled, FormStyled, InputStyled, TextareaStyled } from "@/components/styled"
-
-const CreatePostSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    body: Yup.string().required("Body is required")
-})
+import { useTranslation } from "react-i18next"
 
 export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
+    const { t } = useTranslation()
+
     const createMutation = useCreatePost({ onSuccess })
 
     const handleCreate = useCallback(
@@ -20,6 +18,11 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
         },
         [createMutation]
     )
+
+    const CreatePostSchema = Yup.object().shape({
+        title: Yup.string().required(t("post.title_is_required")),
+        body: Yup.string().required(t("post.body_is_required"))
+    })
 
     const formik = useFormik({
         initialValues: {
@@ -33,7 +36,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
     return (
         <FormStyled>
             <InputStyled
-                label="Title"
+                label={t("post.title")}
                 value={formik.values.title}
                 onValueChange={(value) => formik.setFieldValue("title", value)}
                 isInvalid={!!(formik.touched.title && formik.errors.title)}
@@ -43,7 +46,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
                 }}
             />
             <TextareaStyled
-                label="Body"
+                label={t("post.body")}
                 value={formik.values.body}
                 onValueChange={(value) => formik.setFieldValue("body", value)}
                 isInvalid={!!(formik.touched.body && formik.errors.body)}
@@ -59,7 +62,7 @@ export function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
                 isDisabled={!formik.isValid || !formik.dirty}
                 onPress={() => formik.submitForm()}
             >
-                Create Post
+                {t("post.create")}
             </ButtonStyled>
         </FormStyled>
     )

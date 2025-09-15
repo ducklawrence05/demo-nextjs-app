@@ -5,5 +5,5 @@ export default function PostsLayout({
 }: Readonly<{
     children: React.ReactNode
 }>) {
-    return <div className="w-[60vw]">{children}</div>
+    return <div className="w-auto md:w-[60vw]">{children}</div>
 }

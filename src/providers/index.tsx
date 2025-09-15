@@ -1,28 +1,20 @@
 "use client"
-import React, { useEffect } from "react"
+import React from "react"
 import { HeroUIProvider } from "@heroui/react"
 import { getQueryClient } from "@/utils/helpers/getQueryClient"
 import { QueryClientProvider } from "@tanstack/react-query"
-import { DisclosureProvider } from "@/hooks"
-import { usePathname } from "next/navigation"
-import i18n from "@/lib/i18n"
+import { DisclosureProvider } from "./DisclosureProvider"
+import { ClientI18nProvider } from "./ClientI18nProvider"
 
-export function AppProviders({ children }: { children: React.ReactNode }) {
+export function AppProviders({ children, locale }: { children: React.ReactNode; locale: string }) {
     const queryClient = getQueryClient()
-    const pathName = usePathname()
-
-    useEffect(() => {
-        const segments = pathName.split("/")
-        const locale = segments[1]
-        if (locale && i18n.language !== locale) {
-            i18n.changeLanguage(locale)
-        }
-    }, [pathName])
 
     return (
         <QueryClientProvider client={queryClient}>
             <HeroUIProvider>
-                <DisclosureProvider>{children}</DisclosureProvider>
+                <ClientI18nProvider locale={locale}>
+                    <DisclosureProvider>{children}</DisclosureProvider>
+                </ClientI18nProvider>
             </HeroUIProvider>
         </QueryClientProvider>
     )
