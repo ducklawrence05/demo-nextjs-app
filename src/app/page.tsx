@@ -6,7 +6,9 @@ export default function Home() {
     return (
         <>
             <Link href="/posts">
-                <ButtonStyled className="mt-24 text-lg">Go to All Posts</ButtonStyled>
+                <ButtonStyled color="primary" className="mt-24 text-lg">
+                    Go to All Posts
+                </ButtonStyled>
             </Link>
         </>
     )

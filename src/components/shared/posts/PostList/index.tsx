@@ -51,7 +51,9 @@ function PostListComponent() {
     return (
         <div className="p-4">
             <div className="flex flex-wrap items-center gap-2 mb-4">
-                <ButtonStyled onPress={onOpenCreateModal}>Create Post</ButtonStyled>
+                <ButtonStyled color="primary" onPress={onOpenCreateModal}>
+                    Create Post
+                </ButtonStyled>
                 <ButtonStyled onPress={handleRefetch}>Refresh Post</ButtonStyled>
             </div>
 

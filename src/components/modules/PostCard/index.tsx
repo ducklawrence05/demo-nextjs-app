@@ -25,7 +25,9 @@ function PostCardComponent({ post, onUpdate, onDelete }: PostCardProps) {
             </div>
             <div className="flex gap-2 justify-end mt-4">
                 <Link href={`/posts/${post.id}`}>
-                    <ButtonStyled size="sm">View detail</ButtonStyled>
+                    <ButtonStyled color="primary" size="sm">
+                        View detail
+                    </ButtonStyled>
                 </Link>
                 {onUpdate && (
                     <ButtonStyled size="sm" onPress={() => onUpdate(post)}>
