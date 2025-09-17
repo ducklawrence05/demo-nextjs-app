@@ -35,10 +35,11 @@ export const useCreatePost = ({ onSuccess }: { onSuccess?: () => void } = {}) =>
 
     return useMutation({
         mutationFn: (newPost: CreatePostRequest) => postApi.create(newPost),
-        onSuccess: (data) => {
-            queryClient.setQueryData<GetAllPostsResponse>(QUERY_KEYS.POSTS, (old) => {
-                return old ? [...old, data] : [data]
-            })
+        onSuccess: () => {
+            // queryClient.setQueryData<GetAllPostsResponse>(QUERY_KEYS.POSTS, (old) => {
+            //     return old ? [...old, data] : [data]
+            // })
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.POSTS })
             toast.success(t("success.create"))
             onSuccess?.()
         },
